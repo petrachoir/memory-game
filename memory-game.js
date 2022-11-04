@@ -3,18 +3,24 @@
 /** Memory game: find matching pairs of cards and flip both of them. */
 
 const FOUND_MATCH_WAIT_MSECS = 1000;
-// const COLORS = [
-//   "red",
-//   "blue",
-//   "green",
-//   "orange",
-//   "purple",
-//   "red",
-//   "blue",
-//   "green",
-//   "orange",
-//   "purple",
-// ];
+const CARDS = [
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+];
 
 const maxScore = 8;
 const guesses = document.querySelector("#guesses");
@@ -27,7 +33,7 @@ let firstCard;
 let secondCard;
 let cardsFlipped = 0;
 let matches = 0;
-let colors = shuffle(createRandomColors());
+let colors = shuffle(CARDS);
 
 /** Shuffle array items in-place and return shuffled array. */
 
@@ -53,7 +59,9 @@ function startGame() {
   start.classList.toggle("hidden");
   scoreboard.classList.toggle("hidden");
   hiScoreBoard.classList.toggle("hidden");
-  hiScore.innerText = localStorage.getItem(hiScore);
+  localStorage.getItem(hiScore) === null
+    ? (hiScore.innerText = "N/A")
+    : (hiScore.innerText = localStorage.getItem(hiScore));
   createCards(colors);
 }
 
@@ -63,16 +71,6 @@ function startGame() {
  * - a class with the value of the color
  * - a click event listener for each card to handleCardClick
  */
-
-function createRandomColors() {
-  const randomColors = [];
-  for (let i = 1; i <= 8; i++) {
-    const color = Math.floor(Math.random() * 16777215).toString(16);
-    randomColors.push(`#${color}`);
-    randomColors.push(`#${color}`);
-  }
-  return randomColors;
-}
 
 function createCards(colors) {
   const gameBoard = document.querySelector("#game");
@@ -91,14 +89,14 @@ function createCards(colors) {
 
 function flipCard(card) {
   card.classList.add("flipped");
-  card.classList.remove("hide-color");
+  card.classList.toggle("hide-color");
 }
 
 /** Flip a card face-down. */
 
 function unFlipCard(card) {
   card.classList.remove("flipped");
-  card.classList.add("hide-color");
+  card.classList.toggle("hide-color");
 }
 
 /** Handle clicking on a card: this could be first-card or second-card. */

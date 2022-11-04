@@ -27,17 +27,6 @@ body {
   height: 100vh;
 }
 
-.wrapper {
-  background-color: var(--secondary);
-  box-sizing: border-box;
-  width: 800px;
-  height: 1200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-radius: 1em;
-}
-
 h1 {
   padding-bottom: 20px;
   font-size: 64px;
@@ -61,17 +50,67 @@ h1 {
   cursor: pointer;
 }
 
+.wrapper {
+  background-color: var(--secondary);
+  box-sizing: border-box;
+  width: 1000px;
+  height: 1100px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-radius: 1em;
+}
+
 #game div {
   border: 3px solid black;
   background-color: var(--primary);
-  width: 125px;
-  height: 175px;
+  width: 175px;
+  height: 150px;
   margin: 20px;
   display: inline-block;
   border-radius: 1em;
 }
 
+#game .one {
+  background-image: url(./assets/one.gif);
+  background-size: cover;
+}
+
+#game .two {
+  background-image: url(./assets/two.gif);
+  background-size: cover;
+}
+#game .three {
+  background-image: url(./assets/three.gif);
+  background-size: cover;
+}
+
+#game .four {
+  background-image: url(./assets/four.gif);
+  background-size: cover;
+}
+#game .five {
+  background-image: url(./assets/five.gif);
+  background-size: cover;
+}
+
+#game .six {
+  background-image: url(./assets/six.gif);
+  background-size: cover;
+}
+#game .seven {
+  background-image: url(./assets/seven.gif);
+  background-size: cover;
+}
+
+#game .eight {
+  background-image: url(./assets/eight.gif);
+  background-size: cover;
+}
+
 .hide-color {
+  background-image: none !important;
   background-color: var(--text) !important;
 }
 
