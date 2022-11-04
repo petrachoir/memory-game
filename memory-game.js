@@ -3,25 +3,31 @@
 /** Memory game: find matching pairs of cards and flip both of them. */
 
 const FOUND_MATCH_WAIT_MSECS = 1000;
-const COLORS = [
-  "red",
-  "blue",
-  "green",
-  "orange",
-  "purple",
-  "red",
-  "blue",
-  "green",
-  "orange",
-  "purple",
-];
+// const COLORS = [
+//   "red",
+//   "blue",
+//   "green",
+//   "orange",
+//   "purple",
+//   "red",
+//   "blue",
+//   "green",
+//   "orange",
+//   "purple",
+// ];
 
-const colors = shuffle(COLORS);
-const maxScore = colors.length / 2;
+const maxScore = 8;
+const guesses = document.querySelector("#guesses");
+const header = document.querySelector("header h1");
+const restartBtn = document.querySelector("#restart");
+const gameBoard = document.querySelector("#game");
+const hiScoreBoard = document.querySelector("#hiscoreboard");
+const hiScore = document.querySelector("#hiscore");
 let firstCard;
 let secondCard;
 let cardsFlipped = 0;
-let score = 0;
+let matches = 0;
+let colors = shuffle(createRandomColors());
 
 /** Shuffle array items in-place and return shuffled array. */
 
@@ -43,7 +49,11 @@ function shuffle(items) {
 
 function startGame() {
   const start = document.querySelector("#start");
+  const scoreboard = document.querySelector("#scoreboard");
   start.classList.toggle("hidden");
+  scoreboard.classList.toggle("hidden");
+  hiScoreBoard.classList.toggle("hidden");
+  hiScore.innerText = localStorage.getItem(hiScore);
   createCards(colors);
 }
 
@@ -54,12 +64,24 @@ function startGame() {
  * - a click event listener for each card to handleCardClick
  */
 
+function createRandomColors() {
+  const randomColors = [];
+  for (let i = 1; i <= 8; i++) {
+    const color = Math.floor(Math.random() * 16777215).toString(16);
+    randomColors.push(`#${color}`);
+    randomColors.push(`#${color}`);
+  }
+  return randomColors;
+}
+
 function createCards(colors) {
   const gameBoard = document.querySelector("#game");
 
   for (let color of colors) {
     let card = document.createElement("div");
+    card.style.backgroundColor = color;
     card.classList.add(color);
+    card.classList.add("hide-color");
     card.addEventListener("click", handleCardClick);
     gameBoard.append(card);
   }
@@ -69,12 +91,14 @@ function createCards(colors) {
 
 function flipCard(card) {
   card.classList.add("flipped");
+  card.classList.remove("hide-color");
 }
 
 /** Flip a card face-down. */
 
 function unFlipCard(card) {
   card.classList.remove("flipped");
+  card.classList.add("hide-color");
 }
 
 /** Handle clicking on a card: this could be first-card or second-card. */
@@ -86,10 +110,12 @@ function handleCardClick(evt) {
   if (!clickedCard.classList.contains("flipped") && cardsFlipped < 2) {
     if (cardsFlipped === 0) {
       flipCard(clickedCard);
+      updateGuesses();
       cardsFlipped++;
       firstCard = clickedCard;
     } else if (cardsFlipped === 1) {
       flipCard(clickedCard);
+      updateGuesses();
       cardsFlipped++;
       secondCard = clickedCard;
 
@@ -99,8 +125,8 @@ function handleCardClick(evt) {
           unFlipCard(firstCard);
           unFlipCard(secondCard);
         } else {
-          score++;
-          if (score === maxScore) {
+          matches++;
+          if (matches === maxScore) {
             showWinScreen();
           }
         }
@@ -110,21 +136,33 @@ function handleCardClick(evt) {
 }
 
 function showWinScreen() {
-  const header = document.querySelector("header h1");
-  const restartButton = document.querySelector("#restart");
   header.innerText = "You win!";
-  restartButton.classList.toggle("hidden");
+  restartBtn.classList.toggle("hidden");
+  updateHiScore();
+}
+
+function updateHiScore() {
+  // case for if no current hiscore
+  if (
+    localStorage.getItem(hiScore) === null ||
+    guesses.innerText < parseInt(localStorage.getItem(hiScore))
+  ) {
+    localStorage.setItem(hiScore, guesses.innerText);
+  }
+
+  hiScore.innerText = localStorage.getItem(hiScore);
 }
 
 function restartGame() {
-  const header = document.querySelector("header h1");
-  const gameBoard = document.querySelector("#game");
-  const restartButton = document.querySelector("#restart");
-
   header.innerText = "Memory Game!";
   gameBoard.innerHTML = "";
-  restartButton.classList.toggle("hidden");
+  restartBtn.classList.toggle("hidden");
+  guesses.innerText = 0;
 
   colors = shuffle(COLORS);
   createCards(colors);
+}
+
+function updateGuesses() {
+  guesses.innerText++;
 }
