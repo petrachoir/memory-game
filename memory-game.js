@@ -17,7 +17,7 @@ const COLORS = [
 ];
 
 const colors = shuffle(COLORS);
-const maxScore = colors.length;
+const maxScore = colors.length / 2;
 let firstCard;
 let secondCard;
 let cardsFlipped = 0;
@@ -55,7 +55,7 @@ function startGame() {
  */
 
 function createCards(colors) {
-  const gameBoard = document.getElementById("game");
+  const gameBoard = document.querySelector("#game");
 
   for (let color of colors) {
     let card = document.createElement("div");
@@ -100,8 +100,31 @@ function handleCardClick(evt) {
           unFlipCard(secondCard);
         } else {
           score++;
+          if (score === maxScore) {
+            showWinScreen();
+          }
         }
       }, FOUND_MATCH_WAIT_MSECS);
     }
   }
+}
+
+function showWinScreen() {
+  const header = document.querySelector("header h1");
+  const restartButton = document.querySelector("#restart");
+  header.innerText = "You win!";
+  restartButton.classList.toggle("hidden");
+}
+
+function restartGame() {
+  const header = document.querySelector("header h1");
+  const gameBoard = document.querySelector("#game");
+  const restartButton = document.querySelector("#restart");
+
+  header.innerText = "Memory Game!";
+  gameBoard.innerHTML = "";
+  restartButton.classList.toggle("hidden");
+
+  colors = shuffle(COLORS);
+  createCards(colors);
 }
