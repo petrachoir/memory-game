@@ -33,8 +33,10 @@ const hiScoreBoard = document.querySelector("#hiscoreboard");
 const hiScore = document.querySelector("#hiscore");
 let firstCard;
 let secondCard;
+let cardsGuessed = 0;
 let cardsFlipped = 0;
 let matches = 0;
+
 let colors = shuffle(CARDS);
 
 /** Shuffle array items in-place and return shuffled array. */
@@ -142,9 +144,9 @@ function updateHiScore() {
   // case for if no current hiscore
   if (
     localStorage.getItem(hiScore) === null ||
-    guesses.innerText < parseInt(localStorage.getItem(hiScore))
+    cardsGuessed < parseInt(localStorage.getItem(hiScore))
   ) {
-    localStorage.setItem(hiScore, guesses.innerText);
+    localStorage.setItem(hiScore, cardsGuessed);
   }
 
   hiScore.innerText = localStorage.getItem(hiScore);
@@ -155,11 +157,13 @@ function restartGame() {
   gameBoard.innerHTML = "";
   restartBtn.classList.toggle("hidden");
   guesses.innerText = 0;
+  cardsGuessed = 0;
 
   colors = shuffle(CARDS);
   createCards(colors);
 }
 
 function updateGuesses() {
+  cardsGuessed++;
   guesses.innerText++;
 }
