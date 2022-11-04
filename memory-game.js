@@ -23,6 +23,8 @@ const CARDS = [
 ];
 
 const maxScore = 8;
+const start = document.querySelector("#start");
+const scoreboard = document.querySelector("#scoreboard");
 const guesses = document.querySelector("#guesses");
 const header = document.querySelector("header h1");
 const restartBtn = document.querySelector("#restart");
@@ -54,8 +56,6 @@ function shuffle(items) {
 }
 
 function startGame() {
-  const start = document.querySelector("#start");
-  const scoreboard = document.querySelector("#scoreboard");
   start.classList.toggle("hidden");
   scoreboard.classList.toggle("hidden");
   hiScoreBoard.classList.toggle("hidden");
@@ -77,7 +77,6 @@ function createCards(colors) {
 
   for (let color of colors) {
     let card = document.createElement("div");
-    card.style.backgroundColor = color;
     card.classList.add(color);
     card.classList.add("hide-color");
     card.addEventListener("click", handleCardClick);
@@ -157,7 +156,7 @@ function restartGame() {
   restartBtn.classList.toggle("hidden");
   guesses.innerText = 0;
 
-  colors = shuffle(COLORS);
+  colors = shuffle(CARDS);
   createCards(colors);
 }
 
