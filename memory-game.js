@@ -134,6 +134,11 @@ function handleCardClick(evt) {
   }
 }
 
+function updateGuesses() {
+  cardsGuessed++;
+  guesses.innerText++;
+}
+
 function showWinScreen() {
   header.innerText = "You win!";
   restartBtn.classList.toggle("hidden");
@@ -161,9 +166,4 @@ function restartGame() {
 
   colors = shuffle(CARDS);
   createCards(colors);
-}
-
-function updateGuesses() {
-  cardsGuessed++;
-  guesses.innerText++;
 }

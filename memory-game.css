@@ -31,10 +31,7 @@ h1 {
   font-size: 64px;
 }
 
-#hiscoreboard {
-  font-weight: bold;
-}
-
+#hiscoreboard,
 #scoreboard {
   font-weight: bold;
 }
@@ -70,6 +67,8 @@ h1 {
   margin: 20px;
   display: inline-block;
   border-radius: 1em;
+  transition: transform 1s;
+  transform-style: preserve-3d;
 }
 
 #game .one {
@@ -109,12 +108,16 @@ h1 {
   background-size: cover;
 }
 
+.flipped {
+  transform: rotateY(180deg);
+}
+
 .hide-color {
   background-image: none !important;
   background-color: var(--text) !important;
 }
 
-#restart {
+#restart button {
   font-size: 24px;
   font-weight: bold;
   width: 155px;
