@@ -117,7 +117,7 @@ h1 {
   background-color: var(--text) !important;
 }
 
-#restart button {
+#restart {
   font-size: 24px;
   font-weight: bold;
   width: 155px;
